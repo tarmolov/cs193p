@@ -16,6 +16,30 @@ class ViewController: UIViewController {
 
     var brain = CalculatorBrain()
 
+    var displayValue: Double? {
+        get {
+            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
+        }
+        set {
+            if let value = newValue {
+                display.text = "\(value)"
+            } else {
+                let result = brain.evaluateAndReportErrors()
+                display.text = result.error
+            }
+            userIsInTheMiddleOfTypingOfANumber = false
+            updateOpStackLabel()
+        }
+    }
+
+    func updateOpStackLabel(showEqualsChar: Bool = false) {
+        opStack.text = brain.description
+
+        if showEqualsChar {
+            opStack.text = opStack.text! + " ="
+        }
+    }
+
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTypingOfANumber {
@@ -24,7 +48,25 @@ class ViewController: UIViewController {
             display.text = digit
             userIsInTheMiddleOfTypingOfANumber = true
         }
-        opStack.text = "\(brain.opStackDescription)"
+        updateOpStackLabel()
+    }
+
+    @IBAction func operate(sender: UIButton) {
+        if userIsInTheMiddleOfTypingOfANumber {
+            enter()
+        }
+
+        if let operation = sender.currentTitle {
+            displayValue = brain.performOperation(operation)
+        }
+        updateOpStackLabel(showEqualsChar: true)
+    }
+
+    @IBAction func enter() {
+        userIsInTheMiddleOfTypingOfANumber = false
+        if let value = displayValue {
+            displayValue = brain.pushOperand(value)
+        }
     }
 
     @IBAction func addFloatingPoint(sender: UIButton) {
@@ -34,27 +76,25 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func backspace() {
-        if countElements(display.text!) > 1 {
-            display.text! = dropLast(display.text!)
+    @IBAction func undo() {
+        if userIsInTheMiddleOfTypingOfANumber {
+            let text = display.text!
+            display.text! = countElements(text) > 1 ? dropLast(text) : "0"
         } else {
-            displayValue = 0
+            displayValue = brain.undo()
         }
     }
 
-    @IBAction func operate(sender: UIButton) {
-        if userIsInTheMiddleOfTypingOfANumber {
-            enter()
-        }
+    @IBAction func setVariableValue() {
+        brain.variableValues["m"] = displayValue
+        userIsInTheMiddleOfTypingOfANumber = false
+        displayValue = brain.evaluate()
+        updateOpStackLabel(showEqualsChar: true)
+    }
 
-        if let operation = sender.currentTitle {
-            if let result = brain.performOperation(operation) {
-                displayValue = result
-            } else {
-                displayValue = nil
-            }
-        }
-        opStack.text = opStack.text! + " ="
+    @IBAction func enterVariable() {
+        brain.pushOperand("m")
+        updateOpStackLabel()
     }
 
     @IBAction func changeSign(sender: UIButton) {
@@ -70,35 +110,10 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func enter() {
-        userIsInTheMiddleOfTypingOfANumber = false
-        if let value = displayValue {
-            if let result = brain.pushOperand(value) {
-                displayValue = result
-            } else {
-                displayValue = nil
-            }
-        }
-    }
-
     @IBAction func clear() {
         brain.clear()
         displayValue = 0
-    }
-
-    var displayValue: Double? {
-        get {
-            return NSNumberFormatter().numberFromString(display.text!)!.doubleValue
-        }
-        set {
-            if let value = newValue {
-                display.text = "\(value)"
-            } else {
-                display.text = "ERR"
-            }
-            userIsInTheMiddleOfTypingOfANumber = false
-            opStack.text = "\(brain.opStackDescription)"
-        }
+        brain.variableValues.removeValueForKey("m")
     }
 }
 
