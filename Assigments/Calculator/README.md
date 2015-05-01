@@ -8,7 +8,7 @@
   * [Assignment #2](https://itunes.apple.com/ru/course/programming-project-2/id961180099?i=334824238&l=en&mt=2)
 
 ## My implementation
-  * [Assignment #1](commit/06238ef) (required tasks and extra credit)
-  * [Assignment #2](commit/447e7a9) (required tasks and extra credit)
+  * [Assignment #1](../../../../tree/06238ef1417462350509412879c75253c27f769e) (required tasks and extra credit)
+  * [Assignment #2](../../../../tree/447e7a9f7e4ca43636d452e74f7bb4e7aaceecb5) (required tasks and extra credit)
 
 Also unit tests for CalculatorBrain and integration tests for ViewController are implemented too.

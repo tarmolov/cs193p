@@ -5,5 +5,4 @@
   * [Psychologist](Demos/Psychologist)
 
 ## Assigments
-  1. [Calculator](Assigments/Calculator)
-  2. [Calculator](Assigments/Calculator)
+  * [Calculator](Assigments/Calculator) (#1, #2)
