@@ -79,7 +79,7 @@ class ViewController: UIViewController {
     @IBAction func undo() {
         if userIsInTheMiddleOfTypingOfANumber {
             let text = display.text!
-            display.text! = countElements(text) > 1 ? dropLast(text) : "0"
+            display.text! = count(text) > 1 ? dropLast(text) : "0"
         } else {
             displayValue = brain.undo()
         }

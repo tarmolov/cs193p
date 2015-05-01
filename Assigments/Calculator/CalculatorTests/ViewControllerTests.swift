@@ -17,7 +17,7 @@ class ViewControllerTests: XCTestCase {
         super.setUp()
 
         let storyboard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
-        viewController = storyboard.instantiateViewControllerWithIdentifier("ViewController") as ViewController
+        viewController = storyboard.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
 
         let dummy = viewController.view // force loading subviews and setting outlets
         viewController.viewDidLoad()
