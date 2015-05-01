@@ -1,8 +1,7 @@
-# CS193P. Developing iOS 8 Apps with Swift by Stanford
+# CS193P
+[Developing iOS 8 Apps with Swift](https://itunes.apple.com/us/course/developing-ios-8-apps-swift/id961180099) by Stanford (CS193P Winter 2015).
 
-## Demos
-  * [Happiness](Demos/Happiness)
-  * [Psychologist](Demos/Psychologist)
+## [Demos](https://github.com/palewar/CS193P)
 
-## Assigments
-  * [Calculator](Assigments/Calculator) (#1, #2)
+## My assigments
+  * [Calculator](Calculator)
